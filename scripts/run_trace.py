@@ -2,27 +2,25 @@
 """
 PrasiaLab_guild_Trace 통합 실행기.
 
-이 파일 하나로 아래 작업을 순서대로 실행합니다.
-1) 랭킹 JSON을 스냅샷으로 저장
-2) 해당 스냅샷의 결사 점수 파일 생성
-3) 이전/이후 스냅샷 비교 결과 생성
+일반 운영에서는 이 파일 하나만 실행하면 됩니다.
 
-가장 기본 사용:
+기본 사용:
   python scripts/run_trace.py --snapshot-id 2026-06-25_1200
 
-이전 스냅샷을 지정해서 바로 비교:
+이전 스냅샷 지정:
   python scripts/run_trace.py --snapshot-id 2026-06-25_1200 --before 2026-06-24_1800
 
-이미 저장된 스냅샷끼리 비교만 실행:
+저장된 스냅샷끼리 비교만:
   python scripts/run_trace.py --compare-only --before 2026-06-24_1800 --after 2026-06-25_1200
 
-스냅샷 저장만 하고 비교는 생략:
-  python scripts/run_trace.py --snapshot-id 2026-06-25_1200 --no-compare
+스냅샷 저장만:
+  python scripts/run_trace.py --snapshot-id 2026-06-25_1150 --no-compare
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime
@@ -33,16 +31,68 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 SNAPSHOT_DIR = ROOT / "data" / "snapshots"
 MANIFEST = SNAPSHOT_DIR / "manifest.json"
+LOG_DIR = ROOT / "logs"
+LOG_FILE = LOG_DIR / "run_trace.log"
 
 
 def now_snapshot_id() -> str:
     return datetime.now().strftime("%Y-%m-%d_%H%M")
 
 
+def choose_python_executable() -> str:
+    """Windows에서 pythonw.exe로 실행되면 자식 스크립트 오류가 안 보일 수 있어 python.exe를 우선 사용합니다."""
+    exe = Path(sys.executable)
+    if exe.name.lower() == "pythonw.exe":
+        candidate = exe.with_name("python.exe")
+        if candidate.exists():
+            return str(candidate)
+    return str(exe)
+
+
+def append_log(text: str) -> None:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    with LOG_FILE.open("a", encoding="utf-8") as fp:
+        fp.write(text + "\n")
+
+
 def run_step(args: List[str], label: str) -> None:
+    python_exe = choose_python_executable()
+    cmd = [python_exe, *args]
     print(f"\n[STEP] {label}")
-    print("[CMD]", " ".join(args))
-    subprocess.check_call([sys.executable, *args], cwd=str(ROOT))
+    print("[CMD]", " ".join(cmd))
+    append_log(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] STEP: {label}")
+    append_log("CMD: " + " ".join(cmd))
+
+    try:
+        completed = subprocess.run(
+            cmd,
+            cwd=str(ROOT),
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        msg = f"[ERROR] Python 실행 파일을 찾지 못했습니다: {python_exe} / {exc}"
+        print(msg)
+        append_log(msg)
+        raise SystemExit(1)
+
+    if completed.stdout:
+        print(completed.stdout.rstrip())
+        append_log("STDOUT:\n" + completed.stdout.rstrip())
+    if completed.stderr:
+        print(completed.stderr.rstrip())
+        append_log("STDERR:\n" + completed.stderr.rstrip())
+
+    if completed.returncode != 0:
+        msg = f"[ERROR] 단계 실패: {label} / exit code {completed.returncode}"
+        print(msg)
+        print(f"[LOG] 자세한 내용: {LOG_FILE}")
+        append_log(msg)
+        raise SystemExit(completed.returncode)
 
 
 def read_manifest() -> list[dict[str, Any]]:
@@ -67,6 +117,15 @@ def previous_snapshot_id(current_id: str) -> Optional[str]:
     return None
 
 
+def source_exists_or_url(source: str) -> bool:
+    if source.startswith("http://") or source.startswith("https://"):
+        return True
+    path = Path(source)
+    if not path.is_absolute():
+        path = ROOT / path
+    return path.exists()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="추적 연구소 작업을 한 번에 실행합니다.")
     parser.add_argument("--snapshot-id", default=None, help="이번에 저장할 스냅샷 ID. 예: 2026-06-25_1200")
@@ -82,6 +141,13 @@ def main() -> None:
     parser.add_argument("--min-score", type=float, default=35.0, help="출력 최소 유사도")
     args = parser.parse_args()
 
+    print(f"[ROOT] {ROOT}")
+    print(f"[PYTHON] {choose_python_executable()}")
+    append_log("=" * 80)
+    append_log(f"START: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    append_log(f"ROOT: {ROOT}")
+    append_log(f"PYTHON: {choose_python_executable()}")
+
     snapshot_id = args.snapshot_id or now_snapshot_id()
 
     if args.compare_only:
@@ -90,6 +156,12 @@ def main() -> None:
         if not before_id or not after_id:
             raise SystemExit("compare-only는 --before 와 --after 를 모두 입력해야 합니다.")
     else:
+        if not source_exists_or_url(args.guild_source):
+            print(f"[ERROR] 결사 랭킹 원본을 찾지 못했습니다: {args.guild_source}")
+            print("[CHECK] 압축 해제한 폴더의 data/Who_are_you_guild_score.json 파일이 있는지 확인해줘.")
+            print("[TIP] 다른 파일명을 쓰는 경우 --guild-source data/파일명.json 으로 지정하면 돼.")
+            raise SystemExit(1)
+
         run_args = [
             str(SCRIPTS / "01_collect_snapshot.py"),
             "--snapshot-id", snapshot_id,

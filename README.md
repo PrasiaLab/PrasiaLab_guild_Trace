@@ -81,3 +81,17 @@ python scripts/run_trace.py --snapshot-id 2026-06-25_1150 --no-compare
 ```
 
 기존의 `01_collect_snapshot.py`, `02_build_guild_score.py`, `03_build_trace_compare.py`는 세부 작업용으로 남겨둔 파일입니다. 일반 운영에서는 `run_trace.py`만 사용하면 됩니다.
+
+## GitHub Actions 자동/수동 갱신
+
+이 레포에는 `.github/workflows/update_trace.yml`이 포함되어 있습니다.
+GitHub에서 `Actions → Update Guild Trace → Run workflow`를 눌러 수동 갱신할 수 있습니다.
+
+입력값:
+
+- `snapshot_id`: 이번에 저장할 스냅샷 ID. 비우면 현재 시간으로 자동 생성됩니다.
+- `before`: 비교할 이전 스냅샷 ID. 비우면 저장된 스냅샷 중 직전 데이터를 자동 선택합니다.
+- `guild_source`: 결사 랭킹 원본 JSON 경로. 기본값은 `data/Who_are_you_guild_score.json`입니다.
+- `no_compare`: `true`로 입력하면 스냅샷 저장만 하고 비교 결과 생성은 건너뜁니다.
+
+낮 12시 이전 데이터는 `no_compare=true`로 먼저 저장하고, 이전 이후에는 `no_compare=false`로 실행하면 직전 스냅샷과 자동 비교됩니다.

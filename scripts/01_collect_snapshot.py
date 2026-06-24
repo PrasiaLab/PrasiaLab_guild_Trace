@@ -42,6 +42,8 @@ def read_json(source: str | Path) -> Any:
     path = Path(source)
     if not path.is_absolute():
         path = ROOT_DIR / path
+    if not path.exists():
+        raise FileNotFoundError(f"JSON 원본 파일을 찾지 못했습니다: {path}")
     with path.open("r", encoding="utf-8") as fp:
         return json.load(fp)
 
