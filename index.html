@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="프라시아 전기 서버 이동 전후 결사 유사성 분석 페이지">
+  <title>추적 연구소 | Prasia Lab</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <button class="mobile-menu-button" id="mobileMenuButton" aria-label="메뉴 열기">☰</button>
+  <div class="mobile-dim" id="mobileDim"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img class="brand-symbol" src="./images/bi_simbol.png" alt="프라시아랩 심볼" onerror="this.style.display='none'">
+        <div class="brand-copy">
+          <strong>프라시아랩</strong>
+          <span>GUILD TRACE LAB</span>
+        </div>
+      </div>
+
+      <nav class="side-menu" aria-label="주 메뉴">
+        <p class="menu-section-title">TRACE</p>
+        <button class="side-menu-item active" data-section="dashboard"><span>⌕</span>추적 연구소</button>
+        <button class="side-menu-item" data-section="rules"><span>◇</span>분석 기준</button>
+        <button class="side-menu-item" data-section="data"><span>▥</span>데이터 구조</button>
+
+        <p class="menu-section-title">LINK</p>
+        <a class="side-menu-item side-external-link" href="../" target="_blank" rel="noopener noreferrer"><span>↗</span>꼬꼬 페이지</a>
+      </nav>
+
+      <div class="sidebar-character" aria-hidden="true">
+        <img src="./images/kkokkoChar.png" alt="" onerror="this.style.opacity='.12'">
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <section class="page active" id="dashboard">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">NORU PRASIA LAB · GUILD TRACE</p>
+            <h1>추적 연구소</h1>
+            <p class="page-description">서버 이동 전후 결사의 유사성을 비교하고, 동일 결사 가능성이 높은 후보를 추론합니다.</p>
+          </div>
+          <span class="site-badge" id="dataStatus">데이터 확인 중</span>
+        </div>
+
+        <section class="notice-card warning-card">
+          <strong>분석 안내</strong>
+          <p>본 결과는 공개 랭킹 데이터 기반의 유사성 추론 결과입니다. 일반 결사원 닉네임은 도발성 변경, 선점, 교란 가능성이 있어 비교 기준에서 제외하며, 결사장·91레벨 이상 전력 구조·결사순위 점수 근접도·결사명 보너스를 기반으로 계산합니다.</p>
+        </section>
+
+        <section class="trace-summary-grid" id="summaryGrid" aria-label="비교 요약"></section>
+
+        <section class="content-panel trace-panel">
+          <div class="panel-heading compact">
+            <div>
+              <p class="panel-kicker">MATCH RESULT</p>
+              <h2>결사 유사 후보</h2>
+            </div>
+            <div class="trace-toolbar">
+              <label class="trace-filter">
+                <span>판정</span>
+                <select id="gradeFilter">
+                  <option value="all">전체</option>
+                  <option value="very-high">매우 유력 이상</option>
+                  <option value="high">유력 이상</option>
+                  <option value="possible">가능성 있음 이상</option>
+                </select>
+              </label>
+              <label class="trace-filter">
+                <span>검색</span>
+                <input id="keywordFilter" type="search" placeholder="결사명 / 서버 / 결사장">
+              </label>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="trace-table">
+              <thead>
+                <tr>
+                  <th>이전 결사</th>
+                  <th>이전 순위</th>
+                  <th>이후 후보</th>
+                  <th>이후 순위</th>
+                  <th>유사도</th>
+                  <th>판정</th>
+                  <th>근거</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody id="matchTableBody">
+                <tr><td colspan="8" class="empty-cell">데이터를 불러오는 중입니다.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="page" id="rules">
+        <div class="page-heading simple">
+          <div>
+            <p class="eyebrow">TRACE RULES</p>
+            <h1>분석 기준</h1>
+            <p class="page-description">결사명은 변경·선점 가능성이 있으므로 필수 조건이 아닌 보너스 기준으로만 사용합니다.</p>
+          </div>
+        </div>
+
+        <div class="rule-grid">
+          <section class="content-panel rule-card">
+            <p class="panel-kicker">CORE</p>
+            <h2>핵심 비교값</h2>
+            <ul>
+              <li>결사장 닉네임 일치/유사도</li>
+              <li>91레벨 이상 멤버의 레벨별 직업군 분포</li>
+              <li>91레벨 이상 레벨 분포</li>
+              <li>91레벨 이상 전체 직업군 분포</li>
+              <li>91레벨 이상 총 인원 유사도</li>
+            </ul>
+          </section>
+
+          <section class="content-panel rule-card">
+            <p class="panel-kicker">SUPPORT</p>
+            <h2>보정값</h2>
+            <ul>
+              <li>기존 결사순위 점수와의 근접도</li>
+              <li>결사명 일치/유사 보너스</li>
+              <li>동일 결사명 후보가 여러 개일 때 점수 근접도 우선</li>
+            </ul>
+          </section>
+
+          <section class="content-panel rule-card wide">
+            <p class="panel-kicker">WEIGHT</p>
+            <h2>점수 비중 초안</h2>
+            <div class="weight-list" id="weightList"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="page" id="data">
+        <div class="page-heading simple">
+          <div>
+            <p class="eyebrow">DATA STRUCTURE</p>
+            <h1>데이터 구조</h1>
+            <p class="page-description">새 레포에서는 스냅샷을 보존하고, 비교 결과는 고정 경로의 latest.json으로 노출합니다.</p>
+          </div>
+        </div>
+
+        <section class="content-panel code-panel">
+          <div class="panel-heading compact">
+            <div>
+              <p class="panel-kicker">FIXED PATH</p>
+              <h2>연동 기준 파일</h2>
+            </div>
+          </div>
+          <pre><code>data/compare/latest.json</code></pre>
+          <p class="code-note">나중에 꼬꼬 페이지에 붙일 때도 이 파일을 fetch해서 결과 테이블만 가져오면 됩니다.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="trace-modal" id="detailModal" aria-hidden="true">
+    <div class="trace-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
+      <header class="trace-modal-header">
+        <div>
+          <p class="modal-kicker">MATCH DETAIL</p>
+          <h2 id="detailModalTitle">상세 분석</h2>
+        </div>
+        <button class="modal-close" id="detailModalClose" type="button" aria-label="닫기">×</button>
+      </header>
+      <div class="trace-modal-body" id="detailModalBody"></div>
+    </div>
+  </div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
