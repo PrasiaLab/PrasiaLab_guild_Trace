@@ -1,28 +1,21 @@
 {
   "meta": {
-    "title": "추적 연구소 샘플 데이터",
-    "created_at": "2026-06-25 12:00:00",
-    "before_snapshot": "2026-06-24_1800",
-    "after_snapshot": "2026-06-25_1200",
-    "description": "실제 데이터 연결 전 화면 확인용 샘플입니다.",
+    "created_at": "2026-06-24 17:44:20",
+    "before_snapshot": "test_before",
+    "after_snapshot": "test_after",
+    "high_level_min": 91,
     "available_snapshots": [
       {
-        "id": "2026-06-22_1800",
-        "label": "06/22 18:00"
+        "id": "test_after",
+        "label": "2026-06-24 17:43:43"
       },
       {
-        "id": "2026-06-23_1800",
-        "label": "06/23 18:00"
-      },
-      {
-        "id": "2026-06-24_1800",
-        "label": "06/24 18:00"
-      },
-      {
-        "id": "2026-06-25_1200",
-        "label": "06/25 12:00"
+        "id": "test_before",
+        "label": "2026-06-24 17:43:38"
       }
-    ]
+    ],
+    "before_guild_count": 20,
+    "after_guild_count": 30
   },
   "weights": {
     "master": 25,
@@ -35,453 +28,1010 @@
   },
   "matches": [
     {
-      "id": "sample-001",
-      "similarity": 91.4,
-      "grade": "매우 유력",
+      "id": "test_before-0001-1",
+      "similarity": 53.0,
+      "grade": "낮음",
       "before": {
-        "server": "론도02",
-        "guild_name": "CAT",
-        "guild_master": "노루",
+        "server": "12-4",
+        "guild_name": "블랙중독",
+        "guild_master": "품성",
         "guild_rank": 1,
-        "guild_score": 98234.25,
+        "guild_score": 6483.0,
+        "high_level_count": 36,
+        "level_distribution": {
+          "93": 4,
+          "92": 14,
+          "91": 18
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "12-4",
+        "guild_name": "블랙중독",
+        "guild_master": "품성",
+        "guild_rank": 1,
+        "guild_score": 10225.0,
+        "high_level_count": 36,
+        "level_distribution": {
+          "93": 4,
+          "92": 14,
+          "91": 18
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 0.0,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0002-1",
+      "similarity": 53.0,
+      "grade": "낮음",
+      "before": {
+        "server": "14-4",
+        "guild_name": "DOG",
+        "guild_master": "수꼬",
+        "guild_rank": 2,
+        "guild_score": 6225.0,
+        "high_level_count": 33,
+        "level_distribution": {
+          "93": 3,
+          "92": 16,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "14-4",
+        "guild_name": "DOG",
+        "guild_master": "수꼬",
+        "guild_rank": 2,
+        "guild_score": 9460.0,
+        "high_level_count": 33,
+        "level_distribution": {
+          "93": 3,
+          "92": 16,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 0.0,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0003-1",
+      "similarity": 54.16,
+      "grade": "낮음",
+      "before": {
+        "server": "3-4",
+        "guild_name": "백야",
+        "guild_master": "백야무씨",
+        "guild_rank": 3,
+        "guild_score": 5905.0,
+        "high_level_count": 34,
+        "level_distribution": {
+          "93": 2,
+          "92": 12,
+          "91": 20
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "3-4",
+        "guild_name": "백야",
+        "guild_master": "백야무씨",
+        "guild_rank": 3,
+        "guild_score": 7875.0,
+        "high_level_count": 34,
+        "level_distribution": {
+          "93": 2,
+          "92": 12,
+          "91": 20
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 1.16,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0004-1",
+      "similarity": 57.12,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "16-1",
+        "guild_name": "시그니처",
+        "guild_master": "벼라기",
+        "guild_rank": 4,
+        "guild_score": 4910.0,
+        "high_level_count": 27,
+        "level_distribution": {
+          "92": 13,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "16-1",
+        "guild_name": "시그니처",
+        "guild_master": "벼라기",
+        "guild_rank": 6,
+        "guild_score": 5601.0,
+        "high_level_count": 27,
+        "level_distribution": {
+          "92": 13,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 4.12,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0005-1",
+      "similarity": 55.87,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "5-4",
+        "guild_name": "금쪽이",
+        "guild_master": "금쪽이",
+        "guild_rank": 5,
+        "guild_score": 4612.0,
+        "high_level_count": 26,
+        "level_distribution": {
+          "93": 1,
+          "92": 9,
+          "91": 16
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "5-4",
+        "guild_name": "금쪽이",
+        "guild_master": "금쪽이",
+        "guild_rank": 5,
+        "guild_score": 5605.0,
+        "high_level_count": 26,
+        "level_distribution": {
+          "93": 1,
+          "92": 9,
+          "91": 16
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 2.87,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0006-1",
+      "similarity": 55.84,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "10-4",
+        "guild_name": "미깡",
+        "guild_master": "야생마",
+        "guild_rank": 6,
+        "guild_score": 4536.0,
         "high_level_count": 25,
+        "level_distribution": {
+          "93": 1,
+          "92": 9,
+          "91": 15
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "10-4",
+        "guild_name": "미깡",
+        "guild_master": "야생마",
+        "guild_rank": 7,
+        "guild_score": 5519.0,
+        "high_level_count": 25,
+        "level_distribution": {
+          "93": 1,
+          "92": 9,
+          "91": 15
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 2.84,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0007-1",
+      "similarity": 55.94,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "10-4",
+        "guild_name": "코드네임",
+        "guild_master": "햇님",
+        "guild_rank": 7,
+        "guild_score": 4177.0,
+        "high_level_count": 22,
+        "level_distribution": {
+          "93": 1,
+          "92": 8,
+          "91": 13
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "10-4",
+        "guild_name": "코드네임",
+        "guild_master": "햇님",
+        "guild_rank": 9,
+        "guild_score": 5056.0,
+        "high_level_count": 22,
+        "level_distribution": {
+          "93": 1,
+          "92": 8,
+          "91": 13
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 2.94,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0008-1",
+      "similarity": 53.12,
+      "grade": "낮음",
+      "before": {
+        "server": "5-2",
+        "guild_name": "노타치",
+        "guild_master": "곰형",
+        "guild_rank": 8,
+        "guild_score": 3970.0,
+        "high_level_count": 18,
         "level_distribution": {
           "93": 2,
           "92": 8,
-          "91": 15
+          "91": 8
         },
-        "class_distribution": {
-          "향사수": 8,
-          "집행관": 5,
-          "주문각인사": 4,
-          "환영검사": 3,
-          "심연추방자": 2,
-          "야만투사": 2,
-          "태양감시자": 1
-        },
-        "level_class_distribution": {
-          "93": {
-            "향사수": 1,
-            "집행관": 1
-          },
-          "92": {
-            "향사수": 3,
-            "주문각인사": 2,
-            "환영검사": 2,
-            "심연추방자": 1
-          },
-          "91": {
-            "향사수": 4,
-            "집행관": 4,
-            "주문각인사": 2,
-            "환영검사": 1,
-            "야만투사": 2,
-            "태양감시자": 1,
-            "심연추방자": 1
-          }
-        },
-        "members": [
-          {
-            "nickname": "노루",
-            "level": 93,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 93,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 92,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 92,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 92,
-            "class": "심연추방자",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버E",
-            "level": 91,
-            "class": "야만투사",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "after": {
-        "server": "론도01",
-        "guild_name": "CAT",
-        "guild_master": "노루",
-        "guild_rank": 2,
-        "guild_score": 98102.84,
-        "high_level_count": 24,
+        "server": "5-2",
+        "guild_name": "노타치",
+        "guild_master": "곰형",
+        "guild_rank": 4,
+        "guild_score": 5629.0,
+        "high_level_count": 18,
         "level_distribution": {
           "93": 2,
-          "92": 7,
-          "91": 15
+          "92": 8,
+          "91": 8
         },
-        "class_distribution": {
-          "향사수": 7,
-          "집행관": 6,
-          "주문각인사": 4,
-          "환영검사": 3,
-          "심연추방자": 2,
-          "야만투사": 1,
-          "태양감시자": 1
-        },
-        "level_class_distribution": {
-          "93": {
-            "향사수": 1,
-            "집행관": 1
-          },
-          "92": {
-            "향사수": 2,
-            "주문각인사": 2,
-            "환영검사": 2,
-            "심연추방자": 1
-          },
-          "91": {
-            "향사수": 4,
-            "집행관": 5,
-            "주문각인사": 2,
-            "환영검사": 1,
-            "야만투사": 1,
-            "태양감시자": 1,
-            "심연추방자": 1
-          }
-        },
-        "members": [
-          {
-            "nickname": "노루",
-            "level": 93,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 93,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 92,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 92,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 92,
-            "class": "심연추방자",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버E",
-            "level": 91,
-            "class": "야만투사",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "scores": {
-        "master": 25,
-        "level_class_distribution": 22.8,
-        "level_distribution": 13.7,
-        "class_distribution": 13.5,
-        "high_level_count": 9.6,
-        "guild_score_closeness": 6.8,
-        "guild_name_bonus": 3
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 0.12,
+        "guild_name_bonus": 3.0
       },
       "evidence": [
         "결사장 일치",
-        "91+ 전력 구조 유사",
-        "결사점수 0.13% 차이",
-        "결사명 보너스"
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
       ]
     },
     {
-      "id": "sample-002",
-      "similarity": 82.2,
-      "grade": "유력",
+      "id": "test_before-0009-1",
+      "similarity": 56.75,
+      "grade": "가능성 있음",
       "before": {
-        "server": "라인소프03",
-        "guild_name": "DOG",
-        "guild_master": "꼬꼬",
-        "guild_rank": 3,
-        "guild_score": 84310.12,
-        "high_level_count": 18,
+        "server": "3-2",
+        "guild_name": "싸이월드",
+        "guild_master": "지존힐러숭",
+        "guild_rank": 9,
+        "guild_score": 3858.0,
+        "high_level_count": 20,
         "level_distribution": {
           "93": 1,
-          "92": 5,
-          "91": 12
+          "92": 6,
+          "91": 13
         },
-        "class_distribution": {
-          "향사수": 5,
-          "집행관": 4,
-          "주문각인사": 3,
-          "환영검사": 3,
-          "심연추방자": 1,
-          "야만투사": 1,
-          "태양감시자": 1
-        },
-        "members": [
-          {
-            "nickname": "꼬꼬",
-            "level": 93,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 92,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 92,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 92,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 91,
-            "class": "심연추방자",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버E",
-            "level": 91,
-            "class": "야만투사",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "after": {
-        "server": "론도04",
-        "guild_name": "DOGCAT",
-        "guild_master": "꼬꼬",
-        "guild_rank": 4,
-        "guild_score": 83640.88,
-        "high_level_count": 19,
+        "server": "3-2",
+        "guild_name": "싸이월드",
+        "guild_master": "지존힐러숭",
+        "guild_rank": 12,
+        "guild_score": 4482.0,
+        "high_level_count": 20,
         "level_distribution": {
           "93": 1,
+          "92": 6,
+          "91": 13
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 3.75,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0010-1",
+      "similarity": 55.05,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "3-2",
+        "guild_name": "진격의디지몬",
+        "guild_master": "곰텝몬",
+        "guild_rank": 10,
+        "guild_score": 3807.0,
+        "high_level_count": 20,
+        "level_distribution": {
+          "93": 2,
+          "92": 3,
+          "91": 15
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "3-2",
+        "guild_name": "진격의디지몬",
+        "guild_master": "곰텝몬",
+        "guild_rank": 10,
+        "guild_score": 4833.0,
+        "high_level_count": 20,
+        "level_distribution": {
+          "93": 2,
+          "92": 3,
+          "91": 15
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 2.05,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0011-1",
+      "similarity": 55.78,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "11-5",
+        "guild_name": "정복자",
+        "guild_master": "소심하고부드러운사람",
+        "guild_rank": 11,
+        "guild_score": 3771.0,
+        "high_level_count": 16,
+        "level_distribution": {
+          "93": 1,
+          "92": 8,
+          "91": 7
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "11-5",
+        "guild_name": "정복자",
+        "guild_master": "소심하고부드러운사람",
+        "guild_rank": 11,
+        "guild_score": 4603.0,
+        "high_level_count": 16,
+        "level_distribution": {
+          "93": 1,
+          "92": 8,
+          "91": 7
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 2.78,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0012-1",
+      "similarity": 57.44,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "3-4",
+        "guild_name": "매드",
+        "guild_master": "별하",
+        "guild_rank": 12,
+        "guild_score": 3733.0,
+        "high_level_count": 18,
+        "level_distribution": {
+          "92": 10,
+          "91": 8
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "3-4",
+        "guild_name": "매드",
+        "guild_master": "별하",
+        "guild_rank": 14,
+        "guild_score": 4193.0,
+        "high_level_count": 18,
+        "level_distribution": {
+          "92": 10,
+          "91": 8
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 4.44,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0013-1",
+      "similarity": 57.76,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "8-3",
+        "guild_name": "악연",
+        "guild_master": "진뻬이",
+        "guild_rank": 13,
+        "guild_score": 3684.0,
+        "high_level_count": 20,
+        "level_distribution": {
+          "92": 9,
+          "91": 11
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "8-3",
+        "guild_name": "악연",
+        "guild_master": "진뻬이",
+        "guild_rank": 16,
+        "guild_score": 4076.0,
+        "high_level_count": 20,
+        "level_distribution": {
+          "92": 9,
+          "91": 11
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 4.76,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0014-1",
+      "similarity": 56.79,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "3-2",
+        "guild_name": "네이트온",
+        "guild_master": "강말자",
+        "guild_rank": 14,
+        "guild_score": 3678.0,
+        "high_level_count": 17,
+        "level_distribution": {
+          "92": 11,
+          "91": 6
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "3-2",
+        "guild_name": "네이트온",
+        "guild_master": "강말자",
+        "guild_rank": 13,
+        "guild_score": 4264.0,
+        "high_level_count": 17,
+        "level_distribution": {
+          "92": 11,
+          "91": 6
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 3.79,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0015-1",
+      "similarity": 57.1,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "3-4",
+        "guild_name": "츄",
+        "guild_master": "챱츄",
+        "guild_rank": 15,
+        "guild_score": 3522.0,
+        "high_level_count": 18,
+        "level_distribution": {
           "92": 4,
           "91": 14
         },
-        "class_distribution": {
-          "향사수": 5,
-          "집행관": 5,
-          "주문각인사": 3,
-          "환영검사": 3,
-          "심연추방자": 1,
-          "야만투사": 1,
-          "태양감시자": 1
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "3-4",
+        "guild_name": "츄",
+        "guild_master": "챱츄",
+        "guild_rank": 20,
+        "guild_score": 3085.0,
+        "high_level_count": 18,
+        "level_distribution": {
+          "92": 4,
+          "91": 14
         },
-        "members": [
-          {
-            "nickname": "꼬꼬",
-            "level": 93,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 92,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 92,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 92,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 91,
-            "class": "심연추방자",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버E",
-            "level": 91,
-            "class": "야만투사",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "scores": {
-        "master": 25,
-        "level_class_distribution": 18.1,
-        "level_distribution": 12.4,
-        "class_distribution": 13.9,
-        "high_level_count": 9.4,
-        "guild_score_closeness": 3.4,
-        "guild_name_bonus": 0
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 4.1,
+        "guild_name_bonus": 3.0
       },
       "evidence": [
         "결사장 일치",
-        "결사명 변경 가능성",
-        "91+ 직업군 유사"
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
       ]
     },
     {
-      "id": "sample-003",
-      "similarity": 61.7,
+      "id": "test_before-0016-1",
+      "similarity": 58.06,
       "grade": "가능성 있음",
       "before": {
-        "server": "아민타01",
-        "guild_name": "WIND",
-        "guild_master": "바람",
-        "guild_rank": 6,
-        "guild_score": 70102.44,
-        "high_level_count": 10,
+        "server": "3-2",
+        "guild_name": "유니크",
+        "guild_master": "카신",
+        "guild_rank": 16,
+        "guild_score": 3498.0,
+        "high_level_count": 20,
         "level_distribution": {
-          "92": 3,
-          "91": 7
+          "92": 8,
+          "91": 12
         },
-        "class_distribution": {
-          "향사수": 3,
-          "집행관": 2,
-          "주문각인사": 2,
-          "환영검사": 1,
-          "심연추방자": 1,
-          "태양감시자": 1
-        },
-        "members": [
-          {
-            "nickname": "바람",
-            "level": 92,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 92,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 92,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 91,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 91,
-            "class": "심연추방자",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버E",
-            "level": 91,
-            "class": "태양감시자",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "after": {
-        "server": "아민타03",
-        "guild_name": "WIND",
-        "guild_master": "다른바람",
-        "guild_rank": 7,
-        "guild_score": 69333.11,
-        "high_level_count": 11,
+        "server": "3-2",
+        "guild_name": "유니크",
+        "guild_master": "카신",
+        "guild_rank": 17,
+        "guild_score": 3816.0,
+        "high_level_count": 20,
         "level_distribution": {
-          "92": 2,
-          "91": 9
+          "92": 8,
+          "91": 12
         },
-        "class_distribution": {
-          "향사수": 3,
-          "집행관": 3,
-          "주문각인사": 1,
-          "환영검사": 2,
-          "심연추방자": 1,
-          "태양감시자": 1
-        },
-        "members": [
-          {
-            "nickname": "다른바람",
-            "level": 92,
-            "class": "향사수",
-            "is_master": true
-          },
-          {
-            "nickname": "상위멤버A",
-            "level": 92,
-            "class": "집행관",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버B",
-            "level": 91,
-            "class": "주문각인사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버C",
-            "level": 91,
-            "class": "환영검사",
-            "is_master": false
-          },
-          {
-            "nickname": "상위멤버D",
-            "level": 91,
-            "class": "심연추방자",
-            "is_master": false
-          }
-        ]
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
       },
       "scores": {
-        "master": 0,
-        "level_class_distribution": 18.6,
-        "level_distribution": 11.2,
-        "class_distribution": 12.7,
-        "high_level_count": 9.1,
-        "guild_score_closeness": 7,
-        "guild_name_bonus": 3
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 5.06,
+        "guild_name_bonus": 3.0
       },
       "evidence": [
-        "결사명 일치",
-        "점수 근접",
-        "결사장 불일치"
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "기존 점수 근접",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0017-1",
+      "similarity": 56.32,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "5-1",
+        "guild_name": "동물사랑",
+        "guild_master": "오리",
+        "guild_rank": 17,
+        "guild_score": 3461.0,
+        "high_level_count": 19,
+        "level_distribution": {
+          "93": 1,
+          "92": 5,
+          "91": 13
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "5-1",
+        "guild_name": "동물사랑",
+        "guild_master": "오리",
+        "guild_rank": 15,
+        "guild_score": 4109.0,
+        "high_level_count": 19,
+        "level_distribution": {
+          "93": 1,
+          "92": 5,
+          "91": 13
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 3.32,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0018-1",
+      "similarity": 53.0,
+      "grade": "낮음",
+      "before": {
+        "server": "8-2",
+        "guild_name": "GOAT",
+        "guild_master": "러너",
+        "guild_rank": 18,
+        "guild_score": 3385.0,
+        "high_level_count": 18,
+        "level_distribution": {
+          "93": 3,
+          "92": 1,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "8-2",
+        "guild_name": "GOAT",
+        "guild_master": "러너",
+        "guild_rank": 8,
+        "guild_score": 5071.0,
+        "high_level_count": 18,
+        "level_distribution": {
+          "93": 3,
+          "92": 1,
+          "91": 14
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 0.0,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0019-1",
+      "similarity": 59.42,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "27-1",
+        "guild_name": "TOP",
+        "guild_master": "JoyBoy",
+        "guild_rank": 19,
+        "guild_score": 3042.0,
+        "high_level_count": 16,
+        "level_distribution": {
+          "92": 6,
+          "91": 10
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "27-1",
+        "guild_name": "TOP",
+        "guild_master": "JoyBoy",
+        "guild_rank": 19,
+        "guild_score": 3119.0,
+        "high_level_count": 16,
+        "level_distribution": {
+          "92": 6,
+          "91": 10
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 6.42,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "기존 점수 근접",
+        "결사명 일치"
+      ]
+    },
+    {
+      "id": "test_before-0020-1",
+      "similarity": 58.51,
+      "grade": "가능성 있음",
+      "before": {
+        "server": "11-1",
+        "guild_name": "King",
+        "guild_master": "뜨사장",
+        "guild_rank": 20,
+        "guild_score": 2865.0,
+        "high_level_count": 13,
+        "level_distribution": {
+          "92": 7,
+          "91": 6
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "after": {
+        "server": "11-1",
+        "guild_name": "King",
+        "guild_master": "뜨사장",
+        "guild_rank": 21,
+        "guild_score": 3060.0,
+        "high_level_count": 13,
+        "level_distribution": {
+          "92": 7,
+          "91": 6
+        },
+        "class_distribution": {},
+        "level_class_distribution": {},
+        "members": []
+      },
+      "scores": {
+        "master": 25.0,
+        "level_class_distribution": 0.0,
+        "level_distribution": 15.0,
+        "class_distribution": 0.0,
+        "high_level_count": 10.0,
+        "guild_score_closeness": 5.51,
+        "guild_name_bonus": 3.0
+      },
+      "evidence": [
+        "결사장 일치",
+        "91+ 레벨 분포 유사",
+        "기존 점수 근접",
+        "결사명 일치"
       ]
     }
   ]

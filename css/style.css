@@ -189,3 +189,76 @@ a { color:inherit; }
   .trace-modal-dialog { width:100%; max-height:94vh; }
   .trace-modal-body { max-height:calc(94vh - 82px); }
 }
+
+/* readability update - 2026-06-25 */
+body {
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.brand-copy strong { font-weight:760; }
+.brand-copy span { font-size:11px; font-weight:650; letter-spacing:.075em; }
+.menu-section-title { font-size:11px; font-weight:760; color:#748092; }
+.side-menu-item { min-height:46px; font-size:16px; font-weight:650; letter-spacing:-.15px; }
+.eyebrow,.panel-kicker,.modal-kicker { font-size:13px; font-weight:760; letter-spacing:.06em; }
+.page-heading h1 { font-weight:780; letter-spacing:-1.6px; }
+.page-description { font-size:18px; color:#b3bdcb; }
+.site-badge { font-size:14px; font-weight:700; padding:11px 15px; }
+.panel-heading.compact { min-height:78px; padding:20px 22px; }
+.panel-heading.compact h2 { font-size:24px; font-weight:720; letter-spacing:-.5px; }
+.trace-filter { gap:8px; font-size:14px; font-weight:650; color:#c0c8d4; }
+.trace-filter input,.trace-filter select {
+  min-height:48px;
+  min-width:220px;
+  padding:11px 14px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:520;
+  color:#f4f6fa;
+}
+.apply-button {
+  min-height:48px;
+  padding:11px 20px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:700;
+}
+.summary-card { min-height:126px; padding:20px; }
+.summary-card small { font-size:14px; font-weight:650; color:#b6bfcc; }
+.summary-card strong { font-size:26px; font-weight:760; }
+.summary-card span { font-size:15px; color:#c5ceda; line-height:1.55; }
+.trace-table th,.trace-table td { padding:16px 15px; }
+.trace-table th { font-size:14px; font-weight:700; color:#bdc6d3; letter-spacing:.02em; }
+.trace-table td { font-size:15px; font-weight:460; }
+.guild-name { font-size:16px; font-weight:720; }
+.guild-meta { font-size:14px; color:#aeb8c7; }
+.score-pill { min-width:78px; padding:8px 11px; font-size:15px; font-weight:730; }
+.grade-pill { padding:8px 11px; font-size:14px; font-weight:700; }
+.evidence-tag { padding:6px 8px; font-size:13px; font-weight:620; }
+.detail-button { padding:10px 14px; font-size:14px; font-weight:720; }
+.empty-cell { font-size:16px; }
+.rule-card h2 { font-size:25px; font-weight:720; }
+.rule-card ul { font-size:16px; color:#d0d7e1; }
+.weight-row strong { font-size:16px; font-weight:620; }
+.weight-row span { font-size:16px; font-weight:720; }
+.trace-modal-dialog { width:min(1360px,97vw); }
+.trace-modal-header { padding:22px 26px; }
+.trace-modal-header h2 { font-size:28px; font-weight:760; letter-spacing:-.8px; }
+.trace-modal-body { padding:26px; }
+.detail-box { padding:18px; }
+.detail-box small { font-size:14px; font-weight:650; color:#bac3cf; }
+.detail-box strong { font-size:20px; font-weight:720; }
+.detail-section { padding:19px; }
+.detail-section h3 { font-size:20px; font-weight:720; }
+.score-row { grid-template-columns:220px minmax(0,1fr) 70px; font-size:15px; }
+.score-row b { font-weight:720; }
+.dist-table th,.dist-table td { padding:12px; font-size:15px; }
+.member-table th,.member-table td { padding:12px 11px; font-size:15px; }
+.member-table th { font-weight:700; color:#bdc6d3; }
+.member-master td:first-child::after { font-size:12px; font-weight:700; padding:3px 7px; }
+
+@media(max-width:900px) {
+  .page-description { font-size:16px; }
+  .trace-filter input,.trace-filter select,.apply-button { min-width:0; width:100%; }
+  .trace-table th,.trace-table td { padding:14px 12px; }
+}
