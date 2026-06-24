@@ -52,3 +52,32 @@ python scripts/04_make_all_compares.py
 - 결사순위 점수는 후보 정렬 및 근접도 보정값으로 사용합니다.
 
 기본 비교는 속도를 위해 이전 상위 200개 결사, 이후 상위 300개 결사를 대상으로 합니다. 전체 비교가 필요하면 `--before-limit 0 --after-limit 0` 옵션을 사용하세요.
+
+
+## 통합 실행
+
+기본적으로는 `scripts/run_trace.py` 하나만 실행하면 됩니다.
+
+```bash
+python scripts/run_trace.py --snapshot-id 2026-06-25_1200
+```
+
+이전 스냅샷을 직접 지정해 비교하려면 아래처럼 실행합니다.
+
+```bash
+python scripts/run_trace.py --snapshot-id 2026-06-25_1200 --before 2026-06-24_1800
+```
+
+이미 저장된 스냅샷끼리 비교만 다시 만들고 싶을 때는 아래처럼 실행합니다.
+
+```bash
+python scripts/run_trace.py --compare-only --before 2026-06-24_1800 --after 2026-06-25_1200
+```
+
+처음 이동 전 데이터만 저장하고 비교는 하지 않을 때는 아래처럼 실행합니다.
+
+```bash
+python scripts/run_trace.py --snapshot-id 2026-06-25_1150 --no-compare
+```
+
+기존의 `01_collect_snapshot.py`, `02_build_guild_score.py`, `03_build_trace_compare.py`는 세부 작업용으로 남겨둔 파일입니다. 일반 운영에서는 `run_trace.py`만 사용하면 됩니다.
