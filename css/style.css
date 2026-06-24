@@ -159,3 +159,33 @@ a { color:inherit; }
   .trace-toolbar,.trace-filter,.trace-filter input,.trace-filter select { width:100%; }
   .trace-modal { padding:12px; }
 }
+
+
+/* 2026-06 adjustments */
+.sidebar { padding-bottom:24px; }
+.sidebar-character { display:none !important; }
+.snapshot-panel { margin-bottom:17px; }
+.snapshot-heading { align-items:center; }
+.snapshot-toolbar { align-items:flex-end; }
+.apply-button {
+  min-height:38px; padding:8px 16px; border:1px solid rgba(225,184,62,.36); border-radius:10px;
+  background:linear-gradient(135deg,rgba(225,184,62,.18),rgba(207,151,39,.12)); color:#ffe189;
+  font-size:12px; font-weight:950; cursor:pointer; transition:.18s;
+}
+.apply-button:hover { transform:translateY(-1px); background:rgba(225,184,62,.2); }
+.trace-modal-dialog { width:min(1240px,96vw); max-height:92vh; }
+.trace-modal-body { max-height:calc(92vh - 82px); padding:24px; }
+.member-compare-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.member-table { width:100%; border-collapse:collapse; }
+.member-table th,.member-table td { padding:10px 9px; border-bottom:1px solid rgba(255,255,255,.06); font-size:13px; text-align:left; }
+.member-table th { color:#a9b3c1; font-weight:950; background:rgba(255,255,255,.025); }
+.member-table td { color:#eef2f7; }
+.member-master td:first-child::after { content:' 결사장'; display:inline-flex; margin-left:6px; padding:2px 6px; border-radius:999px; background:rgba(225,184,62,.14); color:#f1d06b; font-size:10px; font-weight:950; vertical-align:middle; }
+.member-empty { color:var(--muted) !important; text-align:center !important; padding:22px !important; }
+@media(max-width:900px) {
+  .member-compare-grid { grid-template-columns:1fr; }
+  .snapshot-toolbar { width:100%; }
+  .apply-button { width:100%; }
+  .trace-modal-dialog { width:100%; max-height:94vh; }
+  .trace-modal-body { max-height:calc(94vh - 82px); }
+}

@@ -1,8 +1,11 @@
-const DATA_URL = "./data/compare/latest.json";
+const DEFAULT_COMPARE_URL = "./data/compare/latest.json";
+const GUILD_SCORE_URL = "./data/Who_are_you_guild_score.json";
 
 const state = {
   data: null,
-  matches: []
+  matches: [],
+  snapshotsInitialized: false,
+  guildRankMap: new Map()
 };
 
 const gradeConfig = [
@@ -51,6 +54,49 @@ function normalizeKeyword(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+function rankKey(guild = {}) {
+  return [guild.server, guild.guild_name, guild.guild_master].map((value) => normalizeKeyword(value)).join("|");
+}
+
+function fallbackRankKey(guild = {}) {
+  return [guild.guild_name, guild.guild_master].map((value) => normalizeKeyword(value)).join("|");
+}
+
+async function loadGuildScoreOrder() {
+  try {
+    const response = await fetch(`${GUILD_SCORE_URL}?v=${Date.now()}`);
+    if (!response.ok) return;
+    const data = await response.json();
+    const rankings = Array.isArray(data.rankings) ? data.rankings : [];
+    rankings.forEach((item, index) => {
+      const rankValue = Number(item.rank || item.previous_rank || index + 1);
+      const mapped = {
+        rank: rankValue,
+        score: Number(item.score || item.previous_score || 0)
+      };
+      state.guildRankMap.set(rankKey({ server: item.world, guild_name: item.guild_name, guild_master: item.guild_master }), mapped);
+      state.guildRankMap.set(fallbackRankKey({ guild_name: item.guild_name, guild_master: item.guild_master }), mapped);
+    });
+  } catch (error) {
+    console.warn("상위권 정렬 기준 데이터를 불러오지 못했습니다.", error);
+  }
+}
+
+function getBaseOrder(match) {
+  const before = match.before || {};
+  const found = state.guildRankMap.get(rankKey(before)) || state.guildRankMap.get(fallbackRankKey(before));
+  if (found) return found.rank;
+  return Number(before.guild_rank || 999999);
+}
+
+function sortMatches(matches) {
+  return [...matches].sort((a, b) => {
+    const rankDiff = getBaseOrder(a) - getBaseOrder(b);
+    if (rankDiff !== 0) return rankDiff;
+    return Number(b.similarity || 0) - Number(a.similarity || 0);
+  });
+}
+
 function moveToSection(sectionId) {
   document.querySelectorAll(".page").forEach((page) => page.classList.remove("active"));
   document.querySelectorAll(".side-menu-item[data-section]").forEach((button) => button.classList.remove("active"));
@@ -70,6 +116,34 @@ function closeMenu() {
   if (dim) dim.classList.remove("open");
 }
 
+function getSnapshotLabel(snapshot) {
+  if (!snapshot) return "-";
+  const list = state.data?.meta?.available_snapshots || [];
+  const found = list.find((item) => item.id === snapshot);
+  return found?.label || snapshot;
+}
+
+function renderSnapshotSelectors(data) {
+  const beforeSelect = document.getElementById("beforeSnapshotSelect");
+  const afterSelect = document.getElementById("afterSnapshotSelect");
+  if (!beforeSelect || !afterSelect) return;
+
+  const meta = data.meta || {};
+  const snapshots = Array.isArray(meta.available_snapshots) && meta.available_snapshots.length
+    ? meta.available_snapshots
+    : [
+        { id: meta.before_snapshot, label: meta.before_snapshot },
+        { id: meta.after_snapshot, label: meta.after_snapshot }
+      ].filter((item) => item.id);
+
+  const options = snapshots.map((item) => `<option value="${item.id}">${item.label || item.id}</option>`).join("");
+  beforeSelect.innerHTML = options;
+  afterSelect.innerHTML = options;
+  beforeSelect.value = meta.before_snapshot || snapshots[0]?.id || "";
+  afterSelect.value = meta.after_snapshot || snapshots[snapshots.length - 1]?.id || "";
+  state.snapshotsInitialized = true;
+}
+
 function renderSummary(data) {
   const summaryGrid = document.getElementById("summaryGrid");
   const matches = data.matches || [];
@@ -78,19 +152,19 @@ function renderSummary(data) {
 
   summaryGrid.innerHTML = `
     <article class="summary-card accent">
-      <small>이전 스냅샷</small>
-      <strong>${data.meta?.before_snapshot || "-"}</strong>
-      <span>비교 기준이 되는 서버 이동 전 데이터</span>
+      <small>이전 데이터</small>
+      <strong>${getSnapshotLabel(data.meta?.before_snapshot)}</strong>
+      <span>비교 기준이 되는 이동 전 데이터</span>
     </article>
     <article class="summary-card accent">
-      <small>이후 스냅샷</small>
-      <strong>${data.meta?.after_snapshot || "-"}</strong>
-      <span>서버 이동 이후 후보 데이터</span>
+      <small>이후 데이터</small>
+      <strong>${getSnapshotLabel(data.meta?.after_snapshot)}</strong>
+      <span>이동 이후 후보 데이터</span>
     </article>
     <article class="summary-card">
       <small>유사 후보</small>
       <strong>${formatNumber(matches.length)}건</strong>
-      <span>latest.json 기준으로 계산된 후보</span>
+      <span>상위 결사 기준으로 정렬된 후보</span>
     </article>
     <article class="summary-card">
       <small>최고 유사도</small>
@@ -212,6 +286,31 @@ function scoreBreakdown(scores = {}, weights = {}) {
   }).join("");
 }
 
+function memberRows(members = []) {
+  if (!Array.isArray(members) || !members.length) {
+    return `<tr><td colspan="3" class="member-empty">표시할 멤버 데이터가 없습니다.</td></tr>`;
+  }
+  return members.map((member) => `
+    <tr class="${member.is_master ? "member-master" : ""}">
+      <td>${member.nickname || member.name || "-"}</td>
+      <td>${formatNumber(member.level)}</td>
+      <td>${member.class || member.class_name || "-"}</td>
+    </tr>
+  `).join("");
+}
+
+function memberTable(title, members = []) {
+  return `
+    <section class="detail-section">
+      <h3>${title}</h3>
+      <table class="member-table">
+        <thead><tr><th>닉네임</th><th>레벨</th><th>직업군</th></tr></thead>
+        <tbody>${memberRows(members)}</tbody>
+      </table>
+    </section>
+  `;
+}
+
 function openDetail(matchId) {
   const match = state.matches.find((item) => item.id === matchId);
   if (!match) return;
@@ -237,7 +336,7 @@ function openDetail(matchId) {
       <div class="detail-box">
         <small>91+ 표본</small>
         <strong>${formatNumber(match.before?.high_level_count)}명 → ${formatNumber(match.after?.high_level_count)}명</strong>
-        <span class="guild-meta">일반 결사원 닉네임은 비교 기준 제외</span>
+        <span class="guild-meta">결사장 포함 고레벨 구성 참고</span>
       </div>
     </div>
 
@@ -258,6 +357,11 @@ function openDetail(matchId) {
         <div class="detail-box"><small>이후</small>${levelClassSummary(match.after?.level_class_distribution)}</div>
       </div>
     </section>
+
+    <div class="member-compare-grid">
+      ${memberTable("이전 멤버", match.before?.members || [])}
+      ${memberTable("이후 멤버", match.after?.members || [])}
+    </div>
   `;
 
   modal.classList.add("open");
@@ -271,20 +375,26 @@ function closeDetail() {
   document.body.style.overflow = "";
 }
 
-async function loadData() {
+function getCompareUrl(before, after) {
+  if (!before || !after) return DEFAULT_COMPARE_URL;
+  return `./data/compare/${before}__${after}.json`;
+}
+
+async function loadData(url = DEFAULT_COMPARE_URL, keepSelectors = false) {
   const dataStatus = document.getElementById("dataStatus");
 
   try {
-    const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
+    const response = await fetch(`${url}?v=${Date.now()}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const data = await response.json();
     state.data = data;
-    state.matches = Array.isArray(data.matches) ? data.matches : [];
+    state.matches = sortMatches(Array.isArray(data.matches) ? data.matches : []);
 
     dataStatus.textContent = `비교 생성 ${data.meta?.created_at || "-"}`;
     dataStatus.classList.remove("error");
 
+    if (!state.snapshotsInitialized || !keepSelectors) renderSnapshotSelectors(data);
     renderSummary(data);
     renderWeights(data.weights || {});
     renderMatches();
@@ -292,8 +402,14 @@ async function loadData() {
     console.error(error);
     dataStatus.textContent = "데이터 로드 실패";
     dataStatus.classList.add("error");
-    document.getElementById("matchTableBody").innerHTML = `<tr><td colspan="8" class="empty-cell">data/compare/latest.json을 불러오지 못했습니다.</td></tr>`;
+    document.getElementById("matchTableBody").innerHTML = `<tr><td colspan="8" class="empty-cell">선택한 비교 데이터를 불러오지 못했습니다.</td></tr>`;
   }
+}
+
+async function applySnapshotSelection() {
+  const before = document.getElementById("beforeSnapshotSelect")?.value;
+  const after = document.getElementById("afterSnapshotSelect")?.value;
+  await loadData(getCompareUrl(before, after), true);
 }
 
 document.querySelectorAll(".side-menu-item[data-section]").forEach((button) => {
@@ -309,6 +425,7 @@ dim?.addEventListener("click", closeMenu);
 
 document.getElementById("gradeFilter")?.addEventListener("change", renderMatches);
 document.getElementById("keywordFilter")?.addEventListener("input", renderMatches);
+document.getElementById("applySnapshotButton")?.addEventListener("click", applySnapshotSelection);
 
 document.getElementById("matchTableBody")?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-match-id]");
@@ -327,4 +444,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-loadData();
+(async function init() {
+  await loadGuildScoreOrder();
+  await loadData();
+})();
