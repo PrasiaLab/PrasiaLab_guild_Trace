@@ -20,3 +20,25 @@ CMD: /opt/hostedtoolcache/Python/3.12.13/x64/bin/python /home/runner/work/Prasia
 STDOUT:
 [OK] compare saved: /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/data/compare/2026-06-25_0258__2026-06-24_1819.json
 [OK] matches: 87
+================================================================================
+START: 2026-06-25 01:18:05
+ROOT: /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace
+PYTHON: /opt/hostedtoolcache/Python/3.12.13/x64/bin/python
+
+[2026-06-25 01:18:05] STEP: 랭킹 데이터 스냅샷 저장
+CMD: /opt/hostedtoolcache/Python/3.12.13/x64/bin/python /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/scripts/01_collect_snapshot.py --snapshot-id 2026-06-25_0118 --guild-source data/Who_are_you_guild_score.json
+STDOUT:
+[OK] snapshot saved: /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/data/snapshots/2026-06-25_0118
+[OK] guild count: 3,588
+
+[2026-06-25 01:18:06] STEP: 결사 점수 계산
+CMD: /opt/hostedtoolcache/Python/3.12.13/x64/bin/python /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/scripts/02_build_guild_score.py --snapshot-id 2026-06-25_0118
+STDOUT:
+[OK] guild score saved: /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/data/Who_are_you_guild_score.json
+[OK] guild count: 3,588
+
+[2026-06-25 01:18:06] STEP: 스냅샷 비교 결과 생성: 2026-06-24_1819 → 2026-06-25_0118
+CMD: /opt/hostedtoolcache/Python/3.12.13/x64/bin/python /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/scripts/03_build_trace_compare.py --before 2026-06-24_1819 --after 2026-06-25_0118 --top-n 3 --before-limit 200 --after-limit 300 --min-score 35.0
+STDOUT:
+[OK] compare saved: /home/runner/work/PrasiaLab_guild_Trace/PrasiaLab_guild_Trace/data/compare/2026-06-24_1819__2026-06-25_0118.json
+[OK] matches: 200

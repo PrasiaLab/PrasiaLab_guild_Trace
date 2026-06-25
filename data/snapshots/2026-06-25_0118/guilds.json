@@ -1,7 +1,10 @@
 {
   "meta": {
     "snapshot_id": "2026-06-25_0118",
-    "created_at": "2026-06-25 01:18:06"
+    "created_at": "2026-06-25 01:18:06",
+    "high_level_min": 91,
+    "guild_count": 3588,
+    "member_sources": []
   },
   "guilds": [
     {
