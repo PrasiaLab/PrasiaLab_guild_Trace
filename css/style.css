@@ -262,3 +262,43 @@ body {
   .trace-filter input,.trace-filter select,.apply-button { min-width:0; width:100%; }
   .trace-table th,.trace-table td { padding:14px 12px; }
 }
+
+/* trace fix - 2026-06-25 */
+.trace-panel .panel-heading.compact {
+  justify-content:center;
+  text-align:center;
+}
+.trace-panel .panel-heading.compact > div:first-child {
+  width:100%;
+}
+.trace-panel .trace-toolbar {
+  justify-content:center;
+}
+.trace-table th,
+.trace-table td {
+  text-align:center;
+}
+.trace-table .guild-name,
+.trace-table .guild-meta {
+  text-align:center;
+}
+.evidence-list {
+  justify-content:center;
+  align-items:center;
+}
+.detail-button,
+.score-pill,
+.grade-pill {
+  margin-left:auto;
+  margin-right:auto;
+}
+.trace-modal-dialog {
+  width:min(1460px,98vw);
+}
+.member-master td {
+  background:rgba(225,184,62,.045);
+}
+.member-master td:first-child {
+  color:#ffe189;
+  font-weight:760;
+}

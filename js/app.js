@@ -39,6 +39,37 @@ function formatNumber(value, digits = 0) {
   });
 }
 
+
+function mapServerName(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw || raw === "-") return "-";
+  const mappings = window.PRASIA_MAPPINGS?.servers || {};
+  if (mappings[raw]) return mappings[raw];
+
+  const compact = raw.replace(/^LIVE_W/i, "").replace(/^W/i, "");
+  const channel = String(value ?? "").match(/(?:-|_)(\d+)$/)?.[1];
+  const worldNumber = compact.match(/\d+/)?.[0];
+  if (worldNumber && channel) {
+    const normalized = `${Number(worldNumber)}-${Number(channel)}`;
+    if (mappings[normalized]) return mappings[normalized];
+  }
+
+  return raw;
+}
+
+function mapClassName(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw || raw === "-") return "-";
+  return window.PRASIA_MAPPINGS?.classes?.[raw] || raw;
+}
+
+function decorateGuild(guild = {}) {
+  return {
+    ...guild,
+    server_label: mapServerName(guild.server ?? guild.world ?? guild.world_id),
+  };
+}
+
 function getGrade(score) {
   return gradeConfig.find((item) => score >= item.min) || gradeConfig[gradeConfig.length - 1];
 }
@@ -187,9 +218,10 @@ function renderWeights(weights = {}) {
 }
 
 function guildCell(guild) {
+  const view = decorateGuild(guild || {});
   return `
-    <span class="guild-name">${guild.guild_name || "-"}</span>
-    <span class="guild-meta">${guild.server || "-"} · 결사장 ${guild.guild_master || "-"}</span>
+    <span class="guild-name">${view.guild_name || "-"}</span>
+    <span class="guild-meta">${view.server_label || "-"} · 결사장 ${view.guild_master || "-"}</span>
   `;
 }
 
@@ -203,9 +235,11 @@ function renderMatches() {
     const score = Number(item.similarity || 0);
     const text = normalizeKeyword([
       item.before?.server,
+      mapServerName(item.before?.server),
       item.before?.guild_name,
       item.before?.guild_master,
       item.after?.server,
+      mapServerName(item.after?.server),
       item.after?.guild_name,
       item.after?.guild_master
     ].join(" "));
@@ -286,11 +320,45 @@ function scoreBreakdown(scores = {}, weights = {}) {
   }).join("");
 }
 
-function memberRows(members = []) {
-  if (!Array.isArray(members) || !members.length) {
+function memberKey(member = {}) {
+  return [
+    normalizeKeyword(member.nickname || member.name),
+    String(member.level || ""),
+    normalizeKeyword(mapClassName(member.class || member.class_name)),
+  ].join("|");
+}
+
+function normalizeMembers(members = [], masterName = "") {
+  const seen = new Set();
+  const normalized = [];
+  const masterKey = normalizeKeyword(masterName);
+
+  (Array.isArray(members) ? members : []).forEach((member) => {
+    const nickname = String(member.nickname || member.name || "-").trim();
+    const row = {
+      ...member,
+      nickname,
+      class: mapClassName(member.class || member.class_name),
+      is_master: Boolean(member.is_master) || (!!masterKey && normalizeKeyword(nickname) === masterKey),
+    };
+    const key = memberKey(row);
+    if (seen.has(key)) return;
+    seen.add(key);
+    normalized.push(row);
+  });
+
+  return normalized.sort((a, b) => {
+    if (a.is_master !== b.is_master) return a.is_master ? -1 : 1;
+    return Number(b.level || 0) - Number(a.level || 0) || String(a.nickname).localeCompare(String(b.nickname), "ko");
+  });
+}
+
+function memberRows(members = [], masterName = "") {
+  const rows = normalizeMembers(members, masterName);
+  if (!rows.length) {
     return `<tr><td colspan="3" class="member-empty">표시할 멤버 데이터가 없습니다.</td></tr>`;
   }
-  return members.map((member) => `
+  return rows.map((member) => `
     <tr class="${member.is_master ? "member-master" : ""}">
       <td>${member.nickname || member.name || "-"}</td>
       <td>${formatNumber(member.level)}</td>
@@ -299,13 +367,13 @@ function memberRows(members = []) {
   `).join("");
 }
 
-function memberTable(title, members = []) {
+function memberTable(title, members = [], masterName = "") {
   return `
     <section class="detail-section">
       <h3>${title}</h3>
       <table class="member-table">
         <thead><tr><th>닉네임</th><th>레벨</th><th>직업군</th></tr></thead>
-        <tbody>${memberRows(members)}</tbody>
+        <tbody>${memberRows(members, masterName)}</tbody>
       </table>
     </section>
   `;
@@ -315,18 +383,21 @@ function openDetail(matchId) {
   const match = state.matches.find((item) => item.id === matchId);
   if (!match) return;
 
-  modalTitle.textContent = `${match.before?.guild_name || "-"} → ${match.after?.guild_name || "-"}`;
+  const beforeView = decorateGuild(match.before || {});
+  const afterView = decorateGuild(match.after || {});
+
+  modalTitle.textContent = `${beforeView.guild_name || "-"} → ${afterView.guild_name || "-"}`;
   modalBody.innerHTML = `
     <div class="detail-grid">
       <div class="detail-box">
         <small>이전 결사</small>
-        <strong>${match.before?.server || "-"} / ${match.before?.guild_name || "-"}</strong>
-        <span class="guild-meta">결사장 ${match.before?.guild_master || "-"} · ${formatNumber(match.before?.guild_rank)}위 · 점수 ${formatNumber(match.before?.guild_score, 2)}</span>
+        <strong>${beforeView.server_label || "-"} / ${beforeView.guild_name || "-"}</strong>
+        <span class="guild-meta">결사장 ${beforeView.guild_master || "-"} · ${formatNumber(match.before?.guild_rank)}위 · 점수 ${formatNumber(match.before?.guild_score, 2)}</span>
       </div>
       <div class="detail-box">
         <small>이후 후보</small>
-        <strong>${match.after?.server || "-"} / ${match.after?.guild_name || "-"}</strong>
-        <span class="guild-meta">결사장 ${match.after?.guild_master || "-"} · ${formatNumber(match.after?.guild_rank)}위 · 점수 ${formatNumber(match.after?.guild_score, 2)}</span>
+        <strong>${afterView.server_label || "-"} / ${afterView.guild_name || "-"}</strong>
+        <span class="guild-meta">결사장 ${afterView.guild_master || "-"} · ${formatNumber(match.after?.guild_rank)}위 · 점수 ${formatNumber(match.after?.guild_score, 2)}</span>
       </div>
       <div class="detail-box">
         <small>유사도</small>
@@ -359,8 +430,8 @@ function openDetail(matchId) {
     </section>
 
     <div class="member-compare-grid">
-      ${memberTable("이전 멤버", match.before?.members || [])}
-      ${memberTable("이후 멤버", match.after?.members || [])}
+      ${memberTable("이전 멤버", match.before?.members || [], beforeView.guild_master)}
+      ${memberTable("이후 멤버", match.after?.members || [], afterView.guild_master)}
     </div>
   `;
 
