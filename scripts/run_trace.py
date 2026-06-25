@@ -7,6 +7,9 @@ PrasiaLab_guild_Trace 통합 실행기.
 기본 사용:
   python scripts/run_trace.py --snapshot-id 2026-06-25_1200
 
+기본 동작은 랭킹 API 추출부터 시작합니다.
+기존 JSON만 다시 가공하려면 --use-existing 을 붙입니다.
+
 이전 스냅샷 지정:
   python scripts/run_trace.py --snapshot-id 2026-06-25_1200 --before 2026-06-24_1800
 
@@ -130,6 +133,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="추적 연구소 작업을 한 번에 실행합니다.")
     parser.add_argument("--snapshot-id", default=None, help="이번에 저장할 스냅샷 ID. 예: 2026-06-25_1200")
     parser.add_argument("--guild-source", default="data/Who_are_you_guild_score.json", help="결사 랭킹 JSON 경로 또는 URL")
+    parser.add_argument("--use-existing", action="store_true", help="랭킹 API 추출을 건너뛰고 기존 data JSON으로만 처리")
+    parser.add_argument("--fetch-only", action="store_true", help="랭킹 API 추출만 실행하고 종료")
+    parser.add_argument("--token", default=None, help="API 토큰. 미입력 시 PRASIA_API_TOKEN 또는 추출기 기본값 사용")
     parser.add_argument("--member-source", action="append", default=[], help="개인/직업 랭킹 JSON 경로 또는 URL. 여러 번 입력 가능")
     parser.add_argument("--before", default=None, help="비교할 이전 스냅샷 ID")
     parser.add_argument("--after", default=None, help="비교할 이후 스냅샷 ID. compare-only에서 주로 사용")
@@ -156,10 +162,20 @@ def main() -> None:
         if not before_id or not after_id:
             raise SystemExit("compare-only는 --before 와 --after 를 모두 입력해야 합니다.")
     else:
+        if not args.use_existing:
+            fetch_args = [str(SCRIPTS / "00_fetch_rankings.py")]
+            if args.token:
+                fetch_args.extend(["--token", args.token])
+            run_step(fetch_args, "원천 랭킹 데이터 추출")
+
+        if args.fetch_only:
+            print("\n[OK] 원천 랭킹 데이터 추출만 완료했습니다.")
+            return
+
         if not source_exists_or_url(args.guild_source):
             print(f"[ERROR] 결사 랭킹 원본을 찾지 못했습니다: {args.guild_source}")
-            print("[CHECK] 압축 해제한 폴더의 data/Who_are_you_guild_score.json 파일이 있는지 확인해줘.")
-            print("[TIP] 다른 파일명을 쓰는 경우 --guild-source data/파일명.json 으로 지정하면 돼.")
+            print("[CHECK] data/Who_are_you_guild_score.json 파일이 생성되었는지 확인해줘.")
+            print("[TIP] 기존 JSON만 쓸 때는 --use-existing 을 붙이면 돼.")
             raise SystemExit(1)
 
         run_args = [
