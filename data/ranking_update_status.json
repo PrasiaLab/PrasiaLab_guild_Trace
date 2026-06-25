@@ -1,11 +1,11 @@
 {
   "status": "success",
-  "updated_at": "2026-06-25T12:12:15+09:00",
-  "updated_at_text": "2026-06-25 12:12:15",
+  "updated_at": "2026-06-25T12:26:05+09:00",
+  "updated_at_text": "2026-06-25 12:26:05",
   "timezone": "Asia/Seoul",
   "character_count": 5000,
-  "guild_count": 2500,
-  "class_count": 33993,
+  "guild_count": 2519,
+  "class_count": 33989,
   "failure_count": 0,
   "message": "모든 랭킹 데이터가 정상적으로 갱신되었습니다."
 }
