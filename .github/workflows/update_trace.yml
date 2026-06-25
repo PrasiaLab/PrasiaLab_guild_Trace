@@ -11,18 +11,18 @@ on:
         description: "비교할 이전 스냅샷 ID (선택, 비우면 직전 스냅샷 자동 선택)"
         required: false
         default: ""
-      guild_source:
-        description: "결사 랭킹 원본 JSON 경로"
-        required: false
-        default: "data/Who_are_you_guild_score.json"
       no_compare:
         description: "스냅샷만 저장하고 비교는 건너뛰기 (true/false)"
         required: false
         default: "false"
+      use_existing:
+        description: "원천 랭킹 API 추출을 건너뛰고 기존 JSON 사용 (true/false)"
+        required: false
+        default: "false"
 
-  # 필요하면 아래 주석을 풀어서 자동 실행 가능
+  # 자동 갱신이 필요하면 아래 주석을 풀어 사용하세요. UTC 기준입니다.
   # schedule:
-  #   - cron: "0 */3 * * *"  # 3시간마다 실행(UTC 기준)
+  #   - cron: "0 */3 * * *"  # 3시간마다 실행
 
 permissions:
   contents: write
@@ -42,25 +42,36 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
       - name: Run trace updater
         shell: bash
+        env:
+          PRASIA_API_TOKEN: ${{ secrets.PRASIA_API_TOKEN }}
+          SNAPSHOT_ID: ${{ github.event.inputs.snapshot_id }}
+          BEFORE_ID: ${{ github.event.inputs.before }}
+          NO_COMPARE: ${{ github.event.inputs.no_compare }}
+          USE_EXISTING: ${{ github.event.inputs.use_existing }}
         run: |
           CMD="python scripts/run_trace.py"
 
-          if [ -n "${{ github.event.inputs.snapshot_id }}" ]; then
-            CMD="$CMD --snapshot-id '${{ github.event.inputs.snapshot_id }}'"
+          if [ -n "$SNAPSHOT_ID" ]; then
+            CMD="$CMD --snapshot-id '$SNAPSHOT_ID'"
           fi
 
-          if [ -n "${{ github.event.inputs.before }}" ]; then
-            CMD="$CMD --before '${{ github.event.inputs.before }}'"
+          if [ -n "$BEFORE_ID" ]; then
+            CMD="$CMD --before '$BEFORE_ID'"
           fi
 
-          if [ -n "${{ github.event.inputs.guild_source }}" ]; then
-            CMD="$CMD --guild-source '${{ github.event.inputs.guild_source }}'"
-          fi
-
-          if [ "${{ github.event.inputs.no_compare }}" = "true" ]; then
+          if [ "$NO_COMPARE" = "true" ]; then
             CMD="$CMD --no-compare"
+          fi
+
+          if [ "$USE_EXISTING" = "true" ]; then
+            CMD="$CMD --use-existing"
           fi
 
           echo "$CMD"
