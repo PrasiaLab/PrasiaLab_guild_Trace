@@ -22,10 +22,10 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Tuple
 
 try:
-    from config import COMPARE_DIR, DATA_DIR, HIGH_LEVEL_MIN, SNAPSHOT_DIR, TRACE_WEIGHTS
+    from config import COMPARE_DIR, DATA_DIR, HIGH_LEVEL_MIN, SNAPSHOT_DIR, TRACE_WEIGHTS, normalize_server_name
 except ImportError:
     sys.path.append(str(Path(__file__).resolve().parent))
-    from config import COMPARE_DIR, DATA_DIR, HIGH_LEVEL_MIN, SNAPSHOT_DIR, TRACE_WEIGHTS
+    from config import COMPARE_DIR, DATA_DIR, HIGH_LEVEL_MIN, SNAPSHOT_DIR, TRACE_WEIGHTS, normalize_server_name
 
 
 def read_json(path: Path) -> Any:
@@ -159,10 +159,27 @@ def load_snapshot(snapshot_id: str) -> Dict[str, Any]:
     return read_json(path)
 
 
+def dedupe_members(members: List[Dict[str, Any]], master_name: str = "") -> List[Dict[str, Any]]:
+    seen = set()
+    rows = []
+    master_key = str(master_name or "").strip().lower()
+    for member in members or []:
+        nickname = str(member.get("nickname") or member.get("name") or "-").strip()
+        row = dict(member)
+        row["nickname"] = nickname
+        row["is_master"] = bool(row.get("is_master")) or (bool(master_key) and nickname.lower() == master_key)
+        key = "|".join([nickname.lower(), str(row.get("level") or ""), str(row.get("class") or row.get("class_name") or "").strip().lower()])
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append(row)
+    rows.sort(key=lambda m: (not bool(m.get("is_master")), -int(m.get("level") or 0), str(m.get("nickname") or "")))
+    return rows
+
 def compact_guild(guild: Dict[str, Any]) -> Dict[str, Any]:
-    members = guild.get("members") or []
+    members = dedupe_members(guild.get("members") or [], guild.get("guild_master") or "")
     return {
-        "server": guild.get("server"),
+        "server": normalize_server_name(guild.get("server")),
         "guild_name": guild.get("guild_name"),
         "guild_master": guild.get("guild_master"),
         "guild_rank": guild.get("guild_rank"),

@@ -22,10 +22,10 @@ from typing import Any, Dict, Iterable, List, Optional
 from urllib.request import Request, urlopen
 
 try:
-    from config import CLASS_ALIASES, DATA_DIR, HIGH_LEVEL_MIN, ROOT_DIR, SNAPSHOT_DIR
+    from config import CLASS_ALIASES, DATA_DIR, HIGH_LEVEL_MIN, ROOT_DIR, SNAPSHOT_DIR, normalize_server_name
 except ImportError:
     sys.path.append(str(Path(__file__).resolve().parent))
-    from config import CLASS_ALIASES, DATA_DIR, HIGH_LEVEL_MIN, ROOT_DIR, SNAPSHOT_DIR
+    from config import CLASS_ALIASES, DATA_DIR, HIGH_LEVEL_MIN, ROOT_DIR, SNAPSHOT_DIR, normalize_server_name
 
 
 def now_snapshot_id() -> str:
@@ -79,7 +79,7 @@ def as_list(payload: Any) -> List[Dict[str, Any]]:
 
 
 def server_value(item: Dict[str, Any]) -> str:
-    return str(pick(item, "server", "world", "world_name", "server_name", "world_id", default="-")).strip()
+    return normalize_server_name(pick(item, "server", "world", "world_name", "server_name", "world_id", default="-"))
 
 
 def guild_key(server: str, guild_name: str, guild_master: str = "") -> str:
@@ -134,6 +134,7 @@ def normalize_member(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 def attach_members(guilds: List[Dict[str, Any]], members: Iterable[Dict[str, Any]]) -> None:
     by_key: Dict[str, Dict[str, Any]] = {}
     by_fallback: Dict[str, Dict[str, Any]] = {}
+    seen_by_guild: Dict[int, set] = defaultdict(set)
     for guild in guilds:
         by_key[guild_key(guild["server"], guild["guild_name"], guild["guild_master"])] = guild
         by_fallback[fallback_key(guild["guild_name"], guild["guild_master"])] = guild
@@ -154,12 +155,36 @@ def attach_members(guilds: List[Dict[str, Any]], members: Iterable[Dict[str, Any
             if guild:
                 break
         if guild:
+            dedupe_key = "|".join([
+                normalized.get("nickname", "").strip().lower(),
+                str(normalized.get("level") or ""),
+                normalize_class(normalized.get("class", "")).strip().lower(),
+            ])
+            guild_id = id(guild)
+            if dedupe_key in seen_by_guild[guild_id]:
+                continue
+            seen_by_guild[guild_id].add(dedupe_key)
+            normalized["class"] = normalize_class(normalized.get("class"))
             normalized["is_master"] = normalized["nickname"] == guild.get("guild_master")
             guild["members"].append(normalized)
 
 
 def build_profile(guild: Dict[str, Any]) -> Dict[str, Any]:
-    members = [m for m in guild.get("members", []) if int(m.get("level") or 0) >= HIGH_LEVEL_MIN]
+    raw_members = [m for m in guild.get("members", []) if int(m.get("level") or 0) >= HIGH_LEVEL_MIN]
+    seen_members = set()
+    members = []
+    for m in raw_members:
+        key = "|".join([
+            str(m.get("nickname") or m.get("name") or "").strip().lower(),
+            str(m.get("level") or ""),
+            normalize_class(m.get("class") or m.get("class_name") or "").strip().lower(),
+        ])
+        if key in seen_members:
+            continue
+        seen_members.add(key)
+        m["class"] = normalize_class(m.get("class") or m.get("class_name"))
+        m["is_master"] = bool(m.get("is_master")) or str(m.get("nickname") or m.get("name") or "").strip() == str(guild.get("guild_master") or "").strip()
+        members.append(m)
     members.sort(key=lambda m: (int(m.get("level") or 0), str(m.get("class") or ""), str(m.get("nickname") or "")), reverse=True)
 
     level_distribution = Counter()
